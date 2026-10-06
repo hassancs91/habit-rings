@@ -412,129 +412,6 @@ button {
   opacity: 0.14;
 }
 
-/* Celebration: the night sky that falls when all three rings close */
-
-.celebration {
-  --sky: #070a1c;
-  --sky-glow: #1b1f4a;
-  --star-ink: #f4f6ff;
-  --star-muted: #a9b0d6;
-
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background:
-    radial-gradient(120% 80% at 50% 110%, rgb(255 90 31 / 0.22), transparent 60%),
-    radial-gradient(90% 70% at 50% 30%, var(--sky-glow), var(--sky) 75%);
-  cursor: pointer;
-}
-
-.celebration-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.celebration-canvas.is-front {
-  z-index: 2;
-}
-
-.celebration-card {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  justify-items: center;
-  gap: 1.4vh;
-  padding: clamp(28px, 4.5vh, 56px) clamp(32px, 4vw, 72px);
-  border-radius: 40px;
-  background: rgb(255 255 255 / 0.06);
-  border: 1px solid rgb(255 255 255 / 0.14);
-  box-shadow:
-    0 1px 0 rgb(255 255 255 / 0.18) inset,
-    0 40px 120px -30px rgb(0 0 0 / 0.7);
-  backdrop-filter: blur(10px);
-  color: var(--star-ink);
-  text-align: center;
-  cursor: default;
-}
-
-.celebration-rings {
-  width: clamp(140px, 22vh, 240px);
-  height: auto;
-  margin-bottom: 1vh;
-  overflow: visible;
-}
-
-.celebration-ring {
-  filter: drop-shadow(0 0 10px currentColor);
-}
-
-.celebration-title {
-  margin: 0;
-  font-family: var(--display);
-  font-weight: 700;
-  font-size: clamp(40px, 6.5vh, 84px);
-  line-height: 1;
-  letter-spacing: -0.04em;
-  background: linear-gradient(100deg, #7fb0ff, #ffffff 35%, #ffb07a 65%, #c9a2ff);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.celebration-text {
-  margin: 0;
-  font-size: clamp(17px, 2.2vh, 26px);
-  color: var(--star-muted);
-}
-
-.celebration-streak {
-  margin: 0.6vh 0 0;
-  padding: 10px 22px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--flame-tip), var(--flame-base));
-  box-shadow: 0 10px 30px -8px var(--flame-base);
-  font-family: var(--mono);
-  font-size: clamp(13px, 1.6vh, 18px);
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: #fff;
-}
-
-.celebration-streak b {
-  font-family: var(--display);
-  font-size: 1.35em;
-  letter-spacing: -0.02em;
-  margin-right: 0.2em;
-}
-
-.celebration-close {
-  margin-top: 1.6vh;
-  padding: 14px 34px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--star-ink);
-  color: var(--sky);
-  font-weight: 650;
-  font-size: clamp(16px, 1.9vh, 21px);
-  cursor: pointer;
-  transition: transform 160ms ease;
-}
-
-.celebration-close:hover {
-  transform: translateY(-2px);
-}
-
-.celebration-close:focus-visible {
-  outline: 3px solid var(--star-ink);
-  outline-offset: 4px;
-}
-
 @media (max-width: 860px) {
   .main {
     grid-template-columns: 1fr;
@@ -564,8 +441,7 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   .habit-log,
-  .habit-undo,
-  .celebration-close {
+  .habit-undo {
     transition: none;
   }
 }
