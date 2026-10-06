@@ -7,6 +7,10 @@
   --water: #1f6bff;
   --move: #ff5a1f;
   --read: #8a3dff;
+  --flame-tip: #ff8a1f;
+  --flame-base: #ff3d1f;
+  --flame-mid: #ffc21a;
+  --flame-core: #ff9a1a;
 
   --display: 'Unbounded Variable', system-ui, sans-serif;
   --body: 'Onest Variable', system-ui, sans-serif;
@@ -79,8 +83,10 @@ button {
 }
 
 .dial-wrap {
+  position: relative;
   justify-self: center;
   width: min(64vh, 44vw);
+  container-type: inline-size;
 }
 
 .dial {
@@ -138,6 +144,85 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.24em;
   color: var(--muted);
+}
+
+/* Streak: a badge on the dial's lower-right corner, sized by the dial */
+
+.streak {
+  position: absolute;
+  right: 0;
+  bottom: 2cqw;
+  translate: 15% 0;
+  display: flex;
+  align-items: center;
+  gap: 2.4cqw;
+  padding: 2cqw 5cqw 2cqw 3.4cqw;
+  border-radius: 999px;
+  background: var(--plate);
+  box-shadow:
+    0 2px 0 rgb(255 255 255 / 0.9) inset,
+    0 20px 40px -18px rgb(31 42 72 / 0.35),
+    0 6px 14px -8px rgb(31 42 72 / 0.2);
+}
+
+.streak-flame {
+  display: block;
+  width: 15cqw;
+  height: auto;
+  overflow: visible;
+  margin-top: -6cqw;
+}
+
+.streak-glow {
+  fill: var(--flame-base);
+  opacity: 0.45;
+}
+
+.streak-core {
+  fill: #fff6d6;
+}
+
+.streak.is-waiting .streak-flame {
+  opacity: 0.6;
+}
+
+.streak.is-out .streak-flame {
+  filter: grayscale(1);
+  opacity: 0.35;
+}
+
+.streak-text {
+  display: grid;
+  justify-items: start;
+}
+
+.streak-days {
+  display: block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 13cqw;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--flame-base);
+}
+
+.streak-days > span {
+  display: inline-block;
+}
+
+.streak.is-out .streak-days {
+  color: var(--muted);
+}
+
+.streak-label {
+  margin-top: 0.6cqw;
+  font-family: var(--mono);
+  font-size: max(11px, 2.4cqw);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  white-space: nowrap;
 }
 
 .habits {
@@ -342,6 +427,10 @@ button {
 
   .dial-label {
     font-size: 12px;
+  }
+
+  .streak {
+    translate: 6% 0;
   }
 
   .week-day .mini {

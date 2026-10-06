@@ -44,6 +44,21 @@ export function dayPercent(day: Day | undefined): number {
   return Math.round((sum / HABITS.length) * 100)
 }
 
+export function isClosed(day: Day | undefined): boolean {
+  return HABITS.every((habit) => (day?.[habit.id] ?? 0) >= habit.goal)
+}
+
+/**
+ * Days in a row with all three rings closed. An unfinished today doesn't break
+ * the streak yet: it's counted from yesterday until today closes too.
+ */
+export function streak(history: History, from = new Date()): { days: number; today: boolean } {
+  const today = isClosed(history[dayKey(from)])
+  let days = 0
+  while (isClosed(history[dayKey(daysAgo(days + (today ? 0 : 1), from))])) days++
+  return { days, today }
+}
+
 const EMPTY_DAY: Day = { water: 0, move: 0, read: 0 }
 
 // A lived-in week: six past days, then today, half done.

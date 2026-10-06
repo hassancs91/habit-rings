@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import { Dial, ringTop } from './Dial'
+import { Streak } from './Streak'
 import { MiniRings, Week } from './Week'
-import { HABITS, dayKey, dayPercent, fraction, loadHistory, saveHistory, type Habit } from './habits'
+import { HABITS, dayKey, dayPercent, fraction, loadHistory, saveHistory, streak, type Habit } from './habits'
 
 const TODAY_LABEL = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
 
@@ -72,6 +73,7 @@ export default function App() {
       <main className="main">
         <div ref={dialRef} className="dial-wrap">
           <Dial values={today} pulses={pulses} percent={dayPercent(today)} />
+          <Streak {...streak(history)} />
         </div>
 
         <ul className="habits">
