@@ -50,6 +50,13 @@ export default function App() {
     if (after >= habit.goal) burst(habit, index)
   }
 
+  function unlog(habit: Habit) {
+    const before = today[habit.id]
+    const after = Math.max(0, before - habit.step)
+    if (after === before) return
+    setHistory((prev) => ({ ...prev, [todayKey]: { ...prev[todayKey], [habit.id]: after } }))
+  }
+
   return (
     <div className="app">
       <header className="top">
@@ -80,13 +87,25 @@ export default function App() {
                     <b>{value}</b> / {habit.goal} {habit.unit}
                   </span>
                 </div>
-                {closed ? (
-                  <span className="habit-done">Closed</span>
-                ) : (
-                  <button type="button" className="habit-log" onClick={() => log(habit, i)}>
-                    {habit.stepLabel}
+                <div className="habit-actions">
+                  <button
+                    type="button"
+                    className="habit-undo"
+                    onClick={() => unlog(habit)}
+                    hidden={value === 0}
+                    aria-label={`Undo ${habit.stepLabel}`}
+                    title={`Undo ${habit.stepLabel}`}
+                  >
+                    −
                   </button>
-                )}
+                  {closed ? (
+                    <span className="habit-done">Closed</span>
+                  ) : (
+                    <button type="button" className="habit-log" onClick={() => log(habit, i)}>
+                      {habit.stepLabel}
+                    </button>
+                  )}
+                </div>
               </li>
             )
           })}

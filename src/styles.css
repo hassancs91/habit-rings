@@ -235,6 +235,46 @@ button {
   -webkit-text-fill-color: currentColor;
 }
 
+.habit-actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 0.7vw, 14px);
+}
+
+.habit-undo {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: clamp(36px, 2.6vw, 48px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--plate);
+  color: var(--muted);
+  font-size: clamp(18px, 1.4vw, 26px);
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.habit-undo[hidden] {
+  display: none;
+}
+
+.habit-undo:hover {
+  color: var(--ink);
+  border-color: currentColor;
+}
+
+.habit-undo:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
 /* The week */
 
 .week {
@@ -311,7 +351,8 @@ button {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .habit-log {
+  .habit-log,
+  .habit-undo {
     transition: none;
   }
 }
