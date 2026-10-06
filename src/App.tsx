@@ -1,9 +1,21 @@
 import { useEffect, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
+import { AnimatePresence } from 'motion/react'
+import { Celebration } from './Celebration'
 import { Dial, ringTop } from './Dial'
 import { Streak } from './Streak'
 import { MiniRings, Week } from './Week'
-import { HABITS, dayKey, dayPercent, fraction, loadHistory, saveHistory, streak, type Habit } from './habits'
+import {
+  HABITS,
+  dayKey,
+  dayPercent,
+  fraction,
+  isClosed,
+  loadHistory,
+  saveHistory,
+  streak,
+  type Habit,
+} from './habits'
 
 const TODAY_LABEL = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
 
@@ -15,6 +27,7 @@ function cssColor(habit: Habit): string {
 export default function App() {
   const [history, setHistory] = useState(loadHistory)
   const [pulses, setPulses] = useState<Record<string, number>>({})
+  const [celebrating, setCelebrating] = useState(false)
   const dialRef = useRef<HTMLDivElement>(null)
   const todayKey = dayKey(new Date())
   const today = history[todayKey]
@@ -49,6 +62,7 @@ export default function App() {
     setHistory((prev) => ({ ...prev, [todayKey]: { ...prev[todayKey], [habit.id]: after } }))
     setPulses((prev) => ({ ...prev, [habit.id]: (prev[habit.id] ?? 0) + 1 }))
     if (after >= habit.goal) burst(habit, index)
+    if (!isClosed(today) && isClosed({ ...today, [habit.id]: after })) setCelebrating(true)
   }
 
   function unlog(habit: Habit) {
@@ -115,6 +129,10 @@ export default function App() {
       </main>
 
       <Week history={history} />
+
+      <AnimatePresence>
+        {celebrating && <Celebration streak={streak(history).days} onDone={() => setCelebrating(false)} />}
+      </AnimatePresence>
     </div>
   )
 }
