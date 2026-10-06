@@ -1,0 +1,317 @@
+:root {
+  --ground: #e8ecf2;
+  --plate: #fbfcfe;
+  --ink: #151826;
+  --muted: #6e7489;
+  --line: #d3d9e3;
+  --water: #1f6bff;
+  --move: #ff5a1f;
+  --read: #8a3dff;
+
+  --display: 'Unbounded Variable', system-ui, sans-serif;
+  --body: 'Onest Variable', system-ui, sans-serif;
+  --mono: 'Martian Mono Variable', ui-monospace, monospace;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font: inherit;
+}
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 2vh;
+  padding: 4vh clamp(20px, 4.5vw, 96px) 3.5vh;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+/* Header */
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-weight: 650;
+  font-size: clamp(26px, 2vw, 38px);
+  letter-spacing: -0.02em;
+}
+
+.today {
+  font-size: clamp(16px, 1.25vw, 24px);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Today: the dial and the habits */
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 96px);
+}
+
+.dial-wrap {
+  justify-self: center;
+  width: min(64vh, 44vw);
+}
+
+.dial {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--plate);
+  box-shadow:
+    0 2px 0 rgb(255 255 255 / 0.9) inset,
+    0 30px 60px -20px rgb(31 42 72 / 0.28),
+    0 8px 18px -8px rgb(31 42 72 / 0.18);
+}
+
+.dial svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.dial-track {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.13;
+}
+
+.dial-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  pointer-events: none;
+}
+
+.dial-percent {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: min(10.5vh, 7.2vw);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+}
+
+.dial-percent small {
+  font-size: 0.42em;
+  font-weight: 600;
+  margin-left: 0.04em;
+  letter-spacing: 0;
+}
+
+.dial-label {
+  margin-top: 0.7vh;
+  font-family: var(--mono);
+  font-size: min(1.9vh, 1.3vw);
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: var(--muted);
+}
+
+.habits {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  max-width: 720px;
+}
+
+.habit {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: clamp(14px, 1.4vw, 28px);
+  padding: clamp(14px, 2.6vh, 30px) 0;
+  border-bottom: 2px solid var(--line);
+}
+
+.habit:last-child {
+  border-bottom: 0;
+}
+
+.habit .mini {
+  width: clamp(40px, 3.2vw, 60px);
+  height: auto;
+}
+
+.habit-text {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.habit-name {
+  font-size: clamp(24px, 2.3vw, 46px);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.habit-count {
+  font-family: var(--mono);
+  font-size: clamp(13px, 1.1vw, 21px);
+  color: var(--muted);
+}
+
+.habit-count b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.habit-log,
+.habit-done {
+  min-width: clamp(110px, 9vw, 176px);
+  padding: clamp(12px, 1.5vh, 18px) clamp(18px, 1.6vw, 30px);
+  border-radius: 999px;
+  font-size: clamp(16px, 1.25vw, 23px);
+  font-weight: 650;
+  text-align: center;
+}
+
+.habit-log {
+  border: 0;
+  color: inherit;
+  background: currentColor;
+  cursor: pointer;
+  box-shadow: 0 10px 22px -10px currentColor;
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+/* The label sits on the habit colour, so it can't use currentColor itself. */
+.habit-log {
+  -webkit-text-fill-color: #fff;
+}
+
+.habit-log:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px -10px currentColor;
+}
+
+.habit-log:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.habit-log:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.habit-done {
+  border: 2px solid currentColor;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* The week */
+
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 1vw;
+  padding-top: 2.4vh;
+  border-top: 2px solid var(--line);
+}
+
+.week-day {
+  display: grid;
+  justify-items: center;
+  gap: 0.8vh;
+  padding: 1.2vh 0 1.4vh;
+  border-radius: 24px;
+}
+
+.week-day .mini {
+  width: min(7.4vh, 6vw);
+  height: auto;
+}
+
+.week-day.is-today {
+  background: var(--plate);
+  box-shadow: 0 12px 28px -18px rgb(31 42 72 / 0.4);
+}
+
+.week-name {
+  font-family: var(--mono);
+  font-size: clamp(11px, 0.85vw, 16px);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.is-today .week-name {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.week-date {
+  font-size: clamp(14px, 1vw, 19px);
+  font-weight: 600;
+}
+
+.mini-track {
+  fill: none;
+  stroke: currentColor;
+  opacity: 0.14;
+}
+
+@media (max-width: 860px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .dial-wrap {
+    width: min(86vw, 440px);
+  }
+
+  .dial-percent {
+    font-size: min(17vw, 76px);
+  }
+
+  .dial-label {
+    font-size: 12px;
+  }
+
+  .week-day .mini {
+    width: 100%;
+    max-width: 52px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .habit-log {
+    transition: none;
+  }
+}
