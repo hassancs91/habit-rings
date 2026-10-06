@@ -11,12 +11,31 @@
   --flame-base: #ff3d1f;
   --flame-mid: #ffc21a;
   --flame-core: #ff9a1a;
+  --flame-heart: #fff6d6;
+  --on-color: #fff;
+  --highlight: rgb(255 255 255 / 0.9);
+  --shadow: 31 42 72;
 
   --display: 'Unbounded Variable', system-ui, sans-serif;
   --body: 'Onest Variable', system-ui, sans-serif;
   --mono: 'Martian Mono Variable', ui-monospace, monospace;
 
   color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  --ground: #0e111b;
+  --plate: #1a1e2c;
+  --ink: #eef1f8;
+  --muted: #8f96ad;
+  --line: #2a3043;
+  --water: #4a8bff;
+  --move: #ff6a33;
+  --read: #a066ff;
+  --highlight: rgb(255 255 255 / 0.06);
+  --shadow: 0 0 0;
+
+  color-scheme: dark;
 }
 
 * {
@@ -73,6 +92,45 @@ button {
   color: var(--muted);
 }
 
+.top-end {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.2vw, 22px);
+}
+
+.theme-toggle {
+  display: grid;
+  place-items: center;
+  width: clamp(40px, 2.8vw, 52px);
+  aspect-ratio: 1;
+  padding: 0;
+  border: 2px solid var(--line);
+  border-radius: 50%;
+  background: var(--plate);
+  color: var(--ink);
+  cursor: pointer;
+  transition: border-color 160ms ease;
+}
+
+.theme-toggle svg {
+  width: 50%;
+  height: 50%;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-toggle:hover {
+  border-color: currentColor;
+}
+
+.theme-toggle:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
+}
+
 /* Today: the dial and the habits */
 
 .main {
@@ -95,9 +153,9 @@ button {
   border-radius: 50%;
   background: var(--plate);
   box-shadow:
-    0 2px 0 rgb(255 255 255 / 0.9) inset,
-    0 30px 60px -20px rgb(31 42 72 / 0.28),
-    0 8px 18px -8px rgb(31 42 72 / 0.18);
+    0 2px 0 var(--highlight) inset,
+    0 30px 60px -20px rgb(var(--shadow) / 0.28),
+    0 8px 18px -8px rgb(var(--shadow) / 0.18);
 }
 
 .dial svg {
@@ -160,9 +218,9 @@ button {
   border-radius: 999px;
   background: var(--plate);
   box-shadow:
-    0 2px 0 rgb(255 255 255 / 0.9) inset,
-    0 20px 40px -18px rgb(31 42 72 / 0.35),
-    0 6px 14px -8px rgb(31 42 72 / 0.2);
+    0 2px 0 var(--highlight) inset,
+    0 20px 40px -18px rgb(var(--shadow) / 0.35),
+    0 6px 14px -8px rgb(var(--shadow) / 0.2);
 }
 
 .streak-flame {
@@ -179,7 +237,7 @@ button {
 }
 
 .streak-core {
-  fill: #fff6d6;
+  fill: var(--flame-heart);
 }
 
 .streak.is-waiting .streak-flame {
@@ -298,7 +356,7 @@ button {
 
 /* The label sits on the habit colour, so it can't use currentColor itself. */
 .habit-log {
-  -webkit-text-fill-color: #fff;
+  -webkit-text-fill-color: var(--on-color);
 }
 
 .habit-log:hover {
@@ -385,7 +443,7 @@ button {
 
 .week-day.is-today {
   background: var(--plate);
-  box-shadow: 0 12px 28px -18px rgb(31 42 72 / 0.4);
+  box-shadow: 0 12px 28px -18px rgb(var(--shadow) / 0.4);
 }
 
 .week-name {
@@ -441,7 +499,8 @@ button {
 
 @media (prefers-reduced-motion: reduce) {
   .habit-log,
-  .habit-undo {
+  .habit-undo,
+  .theme-toggle {
     transition: none;
   }
 }
