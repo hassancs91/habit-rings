@@ -4,6 +4,7 @@ import { Dial, ringTop } from './Dial'
 import { Streak } from './Streak'
 import { MiniRings, Week } from './Week'
 import { HABITS, dayKey, dayPercent, fraction, loadHistory, saveHistory, streak, type Habit } from './habits'
+import { useTheme } from './theme'
 
 const TODAY_LABEL = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' })
 
@@ -15,6 +16,7 @@ function cssColor(habit: Habit): string {
 export default function App() {
   const [history, setHistory] = useState(loadHistory)
   const [pulses, setPulses] = useState<Record<string, number>>({})
+  const [theme, toggleTheme] = useTheme()
   const dialRef = useRef<HTMLDivElement>(null)
   const todayKey = dayKey(new Date())
   const today = history[todayKey]
@@ -65,9 +67,29 @@ export default function App() {
           <MiniRings fractions={[0.78, 0.6, 0.42]} size={44} />
           <span className="wordmark">Rings</span>
         </div>
-        <time className="today" dateTime={todayKey}>
-          {TODAY_LABEL.format(new Date())}
-        </time>
+        <div className="top-end">
+          <time className="today" dateTime={todayKey}>
+            {TODAY_LABEL.format(new Date())}
+          </time>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? (
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5" />
+                <path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6" />
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+              </svg>
+            )}
+          </button>
+        </div>
       </header>
 
       <main className="main">
